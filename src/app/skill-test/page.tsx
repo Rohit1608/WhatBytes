@@ -65,7 +65,7 @@ export default function HomePage() {
               - Syllabus Wise Analysis
               - Question Analysis
           */}
-           <span className="text-2xl  font-semibold text-gray-900 mb-2 block">
+           <span className="text-2xl  font-semibold text-gray-00 mb-2 block">
                   Skill Test
                 </span>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
