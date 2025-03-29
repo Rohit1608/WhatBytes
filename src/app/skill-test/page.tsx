@@ -50,7 +50,7 @@ export default function HomePage() {
     
 
       {/* Main layout: Sidebar on the left, content on the right */}
-      <div className="flex flex-col ">
+      <div className="flex flex-col  ">
         <Sidebar />
 
         {/* Main Content Area */}

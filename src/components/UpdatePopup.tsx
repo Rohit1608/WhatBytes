@@ -64,15 +64,15 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onSave, onClose, defaultValue
 
         {/* Rank Input */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
-          <div className="flex items-center">
+          <div className="flex items-center ">
             <TbCircleNumber1Filled className="text-blue-900 text-xl mr-2" />
             <label className="text-sm font-medium text-gray-700">
               Update your <strong className="text-black">Rank</strong>
             </label>
           </div>
           <input
-            type="text"
-            className={`w-full sm:w-24 px-3 py-2 border ${
+            type="text" 
+            className={`lg:w-1/3 sm:w-24 px-3 py-2 border ${
               errors.rank ? "border-red-500" : "border-blue-300"
             } rounded-md font-semibold   `}
 
@@ -93,7 +93,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onSave, onClose, defaultValue
           </div>
           <input
             type="text"
-            className={`w-full sm:w-24 px-3 py-2 border ${
+            className={`lg:w-1/3 sm:w-24 px-3 py-2 border ${
               errors.percentile ? "border-red-500" : "border-blue-300"
             } rounded-md font-semibold`}
             value={percentile}
@@ -109,7 +109,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onSave, onClose, defaultValue
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
           <div className="flex items-center">
             <PiNumberCircleThreeFill className="text-blue-900 text-xl mr-2" />
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 ">
               Update your{" "}
               <strong className="text-black">
                 Current Score (Out of 15)
@@ -118,7 +118,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onSave, onClose, defaultValue
           </div>
           <input
             type="text"
-            className={`w-full sm:w-24 px-3 py-2 border ${
+            className={`lg:w-1/3 sm:w-24 px-3 py-2 border ${
               errors.score ? "border-red-500" : "border-blue-300"
             } rounded-md font-semibold`}
             value={score}
