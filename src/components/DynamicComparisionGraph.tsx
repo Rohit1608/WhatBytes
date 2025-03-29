@@ -13,16 +13,16 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
   useEffect(() => {
     if (!graphRef.current) return;
 
-    // Clear any existing content
+    // Clear content
     d3.select(graphRef.current).selectAll("*").remove();
 
-    // Dimensions
+    // Set dimensions
     const containerWidth = graphRef.current.offsetWidth;
     const width = Math.min(containerWidth, 600);
     const height = 300;
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
 
-    // Create the SVG container
+    // Create SVG
     const svg = d3
       .select(graphRef.current)
       .append("svg")
@@ -33,38 +33,23 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // ----------------------------------------------------
-    // Generate data with two peaks using a mixture model.
-    // We iterate over integer x values from 0 to 100.
-    // ----------------------------------------------------
+    // Generate data
     const data = d3.range(0, 101, 1).map((x) => {
-      // First peak: centered at 30
-      const mu1 = 30;
-      const sigma1 = 8;
-      const amplitude1 = 300;
+      const mu1 = 30, sigma1 = 8, amplitude1 = 300;
       const y1 = amplitude1 * Math.exp(-((x - mu1) ** 2) / (2 * sigma1 ** 2));
 
-      // Second peak: centered at 70
-      const mu2 = 70;
-      const sigma2 = 8;
-      const amplitude2 = 500;
+      const mu2 = 70, sigma2 = 8, amplitude2 = 500;
       const y2 = amplitude2 * Math.exp(-((x - mu2) ** 2) / (2 * sigma2 ** 2));
 
-      // Sum the two peaks and round the result
-      const y = Math.round(y1 + y2);
-      return { x, y };
+      return { x, y: Math.round(y1 + y2) };
     });
 
-    // ----------------------------------------------------
-    // Create scales based on the data
-    // ----------------------------------------------------
+    // Set scales
     const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
     const maxY = d3.max(data, (d) => d.y) || 1;
     const yScale = d3.scaleLinear().domain([0, maxY]).range([height, 0]).nice();
 
-    // ----------------------------------------------------
-    // Draw the main line chart (the combined distribution)
-    // ----------------------------------------------------
+    // Draw line
     const lineGenerator = d3
       .line<{ x: number; y: number }>()
       .x((d) => xScale(d.x))
@@ -79,9 +64,7 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
       .attr("stroke-width", 2)
       .attr("d", lineGenerator);
 
-    // ----------------------------------------------------
-    // Plot circles at each data point (keeping them subtle)
-    // ----------------------------------------------------
+    // Draw points
     chartG
       .selectAll("circle.data-point")
       .data(data)
@@ -93,9 +76,7 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
       .attr("r", 3)
       .attr("fill", "#4F46E5");
 
-    // ----------------------------------------------------
-    // Draw a vertical line for the user's percentile
-    // ----------------------------------------------------
+    // User line
     const userX = xScale(percentile);
     chartG
       .append("line")
@@ -106,9 +87,7 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
       .attr("stroke", "gray")
       .attr("stroke-dasharray", "4,4");
 
-    // ----------------------------------------------------
-    // Highlight the data point corresponding to the user's percentile
-    // ----------------------------------------------------
+    // Highlight point & box
     const userData = data.find((d) => d.x === percentile);
     if (userData) {
       const userY = yScale(userData.y);
@@ -119,17 +98,11 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
         .attr("r", 5)
         .attr("fill", "#4F46E5");
 
-      // ----------------------------------------------------
-      // Add a box displaying the percentile and number of students
-      // ----------------------------------------------------
-      const boxWidth = 120;
-      const boxHeight = 40;
-      // Place the box to the right of the highlighted circle
+      const boxWidth = 120, boxHeight = 40;
       const boxX = userX + 10;
-      // Adjust the vertical position so the box appears above the circle
       const boxY = userY - boxHeight - 5;
 
-      // Box background
+      // Box bg
       chartG
         .append("rect")
         .attr("x", boxX)
@@ -141,7 +114,7 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
         .attr("rx", 4)
         .attr("ry", 4);
 
-      // Text: Percentile
+      // Percentile text
       chartG
         .append("text")
         .attr("x", boxX + 5)
@@ -150,7 +123,7 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
         .attr("fill", "#333")
         .text(`Percentile: ${percentile}%`);
 
-      // Text: Number of Students
+      // Student count
       chartG
         .append("text")
         .attr("x", boxX + 5)
@@ -160,18 +133,14 @@ const DynamicComparisonGraph: React.FC<DynamicComparisonGraphProps> = ({ percent
         .text(`Students: ${userData.y}`);
     }
 
-    // ----------------------------------------------------
-    // Draw the axes
-    // ----------------------------------------------------
+    // Draw axes
     chartG
       .append("g")
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(xScale).ticks(10));
     chartG.append("g").call(d3.axisLeft(yScale).ticks(5));
 
-    // ----------------------------------------------------
-    // Add axis labels
-    // ----------------------------------------------------
+    // Add labels
     chartG
       .append("text")
       .attr("x", width)

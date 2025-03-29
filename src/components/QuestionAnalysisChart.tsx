@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-// import target from "./public/target.png";
+
 
 interface QuestionAnalysisChartProps {
   correct: number;
@@ -13,7 +13,7 @@ const QuestionAnalysisChart: React.FC<QuestionAnalysisChartProps> = ({ correct, 
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return; // Ensure the ref is available
+    if (!chartRef.current) return; // Ensuring the ref is available
 
     const width = 200;
     const height = 200;
