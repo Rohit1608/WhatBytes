@@ -1,6 +1,6 @@
 
 
-"use client"; // For Next.js App Router with client components
+"use client";
 
 import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
@@ -55,16 +55,7 @@ export default function HomePage() {
 
         {/* Main Content Area */}
         <div className="flex-1 p-4 lg:p-8   absolute  left-[16%]  w-[80%]">
-          {/*
-            Create a 2-column layout on larger screens (lg: breakpoint).
-            The left column will hold:
-              - Skill Test Card
-              - Quick Statistics
-              - Comparison Graph
-            The right column will hold:
-              - Syllabus Wise Analysis
-              - Question Analysis
-          */}
+         
            <span className="text-2xl  font-semibold text-gray-00 mb-2 block">
                   Skill Test
                 </span>
